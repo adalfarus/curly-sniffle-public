@@ -276,7 +276,7 @@ class DatabaseAccess:
         self._insert_test_data()
 
     def _insert_test_data(self):
-        fake = _Faker("de_DE")
+        fake = _Faker("en_US")
 
         lawyers, persons = [], []
         for nb in range(1, 101):
