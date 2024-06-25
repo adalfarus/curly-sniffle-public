@@ -1,0 +1,47 @@
+./common/search_engine.py
+
+# user{self_represented}=0 & {can_be_lawyer}=0 [FIX]
+l. 196: if initial_column in columns: -> if column in columns:
+
+./common/db.py
+
+Added write lock to make sequential reads possible, while still preventing writes [Not used]
+
+./common/main_gui.py
+
+Saved old index to stop it from changing the current selected item when finishing an edit.
+l. 454: old_index = self.search_results.currentIndex()
+l. 456: self.search_results.setCurrentIndex(old_index)
+
+./common/db.py
+
+l. 424: value = value if isinstance(value, tuple) else (value,) -> value = value if isinstance(value, (tuple, list)) else (value,)
+
+./common/common_gui.py
+
+l.1303: self.oneEditSaved.emit(f"Cases.{self.nb}") -> self.oneEditStarted.emit(f"Cases.{self.nb}")
+l.1322: self.oneEditSaved.emit(f"Cases.{self.nb}") -> self.oneEditStarted.emit(f"Cases.{self.nb}")
+l.1333: item = QListWidgetItem(file_name)
+l.1334: item.setData(Qt.ItemDataRole.UserRole, file_name)
+l.1335: self.documents_list.addItem(file_name) -> self.documents_list.addItem(item)
+
+./common/main_gui.py
+
+l.322->l.328:
+data = item.data(Qt.ItemDataRole.UserRole)
+
+if type(data) == int:
+    docs.append(data)
+else:
+    doc = Document.new(self._db_access, os.path.basename(data), "", [], data)
+    docs.append(doc.nb)
+
+./common/search_engine.py
+
+# user[address]{self_represented}=0 & {can_be_lawyer}=0 [FIX]
+l.304: ret_val = tuple(main[0].split(";")) if main[1] else self._returns_map.get(table) -> ret_val = tuple(main[1].split(";")) if main[1] is not None else self._returns_map.get(table)
+
+./common/main_gui.py
+./common/common_gui.py
+
+Made them display nothing if the ret vals are empty
